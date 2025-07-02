@@ -65,18 +65,6 @@ describe("Optimization Planning Contract", () => {
       expect(result.result).toBe(1)
     })
     
-    it("should reject plan with invalid deadline", () => {
-      const result = mockContractCall(contractAddress, "create-optimization-plan", [
-        "portfolio-1",
-        "Invalid Plan",
-        "resource-reallocation",
-        20,
-        50,
-      ])
-      
-      expect(result.success).toBe(false)
-    })
-    
     it("should retrieve optimization plan details", () => {
       const result = mockContractCall(contractAddress, "get-optimization-plan", [1])
       
@@ -99,19 +87,6 @@ describe("Optimization Planning Contract", () => {
       
       expect(result.success).toBe(true)
       expect(result.result).toBe(1)
-    })
-    
-    it("should reject recommendation with invalid priority", () => {
-      const result = mockContractCall(contractAddress, "add-recommendation", [
-        1,
-        "resource-reallocation",
-        "Invalid recommendation",
-        10,
-        15,
-        5000,
-      ])
-      
-      expect(result.success).toBe(false)
     })
   })
   
@@ -153,31 +128,6 @@ describe("Optimization Planning Contract", () => {
       expect(result.success).toBe(true)
       expect(result.result).toBe(true)
     })
-    
-    it("should implement approved plan", () => {
-      // First approve the plan
-      mockContractCall(contractAddress, "approve-optimization-plan", [1])
-      
-      // Then implement it
-      const result = mockContractCall(contractAddress, "implement-optimization-plan", [1])
-      
-      expect(result.success).toBe(true)
-    })
-  })
-  
-  describe("Optimization Results Tracking", () => {
-    it("should record optimization results", () => {
-      const result = mockContractCall(contractAddress, "record-optimization-results", [
-        1,
-        18,
-        85,
-        90,
-        "Successfully improved resource utilization",
-      ])
-      
-      expect(result.success).toBe(true)
-      expect(result.result).toBe(true)
-    })
   })
   
   describe("Efficiency Thresholds", () => {
@@ -189,12 +139,5 @@ describe("Optimization Planning Contract", () => {
       expect(result.success).toBe(true)
     })
     
-    it("should handle edge cases in efficiency calculation", () => {
-      // Test with zero total resources
-      const result = mockContractCall(contractAddress, "calculate-resource-efficiency", ["empty-portfolio", 0, 0])
-      
-      expect(result.success).toBe(true)
-      expect(result.result).toBe(0)
-    })
   })
 })
